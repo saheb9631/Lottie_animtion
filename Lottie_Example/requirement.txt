@@ -1,0 +1,183 @@
+# 📱 Lottie Animation App — Requirements Document
+
+---
+
+## 1. App Overview
+
+This app demonstrates how to integrate **two Lottie animations** in a SwiftUI application.
+
+The app supports:
+
+- Loading **first Lottie animation from local `.lottie` file**
+- Loading **second Lottie animation from remote URL (internet)**
+- Displaying animations with dynamic width and fixed height
+- Handling loading and error states properly
+
+### 🔹 Important
+
+1. **Local Animation File Name:**  
+   `"Sample Animation.lottie"`  
+   (This file is added inside the project bundle)
+
+2. **Remote Animation:**  
+   Must load from an **online Lottie URL** (for example from lottiefiles.com)
+
+The purpose of this app is to understand:
+
+- Lottie integration  
+- Local vs Remote loading  
+- Reusable components  
+- SwiftUI–UIKit bridging  
+
+---
+
+## 2. Main Goals
+
+1. Integrate Lottie using Swift Package Manager.
+2. Load first animation from local file: `"Sample Animation.lottie"`.
+3. Load second animation from internet URL.
+4. Create reusable SwiftUI Lottie component.
+5. Maintain dynamic width and fixed height layout.
+6. Handle loading and error states properly.
+7. Ensure smooth performance and memory management.
+
+---
+
+## 3. User Stories
+
+- **US-001:** As a user, I want to see two Lottie animations when the app opens.
+- **US-002:** As a user, I want the first animation to load from a local `.lottie` file.
+- **US-003:** As a user, I want the second animation to load from an internet URL.
+- **US-004:** As a user, I want to see a loading indicator while remote animation loads.
+- **US-005:** As a user, I want to see an error message if remote animation fails.
+- **US-006:** As a user, I want both animations to adjust to screen width automatically.
+
+---
+
+## 4. Features
+
+### F-001: Load Local Lottie Animation
+
+- **Source:** `"Sample Animation.lottie"` (inside project)
+- **Type:** `.lottie` file (not JSON)
+- **When it appears:** Automatically when app launches.
+- **Internet required:** ❌ No
+- **If something goes wrong:** Show fallback message like  
+  `"Local animation failed to load"`
+
+---
+
+### F-002: Load Remote Lottie Animation
+
+- **Source:** Lottie URL (example: from LottieFiles)
+- **Type:** Loaded from internet
+- **When it appears:** Below the local animation
+- **Internet required:** ✅ Yes
+- **While loading:** Show `ProgressView`
+- **If something goes wrong:** Show message  
+  `"Failed to load remote animation"`
+
+---
+
+### F-003: Reusable Lottie Component
+
+Create `LottieView.swift` using `UIViewRepresentable`.
+
+It must support:
+
+- `.local(fileName: String)`
+- `.remote(url: URL)`
+- Loop mode
+- Autoplay
+- Loading state
+- Error state
+
+App should never crash if animation fails.
+
+---
+
+### F-004: Dynamic Layout Handling
+
+- Animation width → full screen width
+- Height → fixed (example: 250)
+- Works on all iPhone screen sizes
+- Layout must stay stable
+
+---
+
+### F-005: Loading & Error Handling
+
+For remote animation:
+
+- Show `ProgressView()` while loading
+- Show error text if loading fails
+- Local animation should load instantly (no loader needed)
+
+---
+
+## 5. Screens
+
+### S-001: Animation Demo Screen
+
+**What’s on the screen:**
+
+1. Title (Example: "Lottie Animation Demo")
+2. First animation → Local (`Sample Animation.lottie`)
+3. Second animation → Remote (from URL)
+4. Loading indicator (for remote only)
+5. Error message (if remote fails)
+
+This is the first screen when the app opens.
+
+---
+
+## 6. Data
+
+- **D-001:** Local file → `"Sample Animation.lottie"`
+- **D-002:** Remote Lottie URL
+- **D-003:** Loading state (loading / success / failure)
+- **D-004:** Loop mode configuration
+
+---
+
+## 7. Extra Details
+
+- **Internet:** ✅ Required (for remote animation only)
+- **Local file:** ✅ Required (`Sample Animation.lottie`)
+- **Data storage:** ❌ No persistence needed
+- **Permissions:** ❌ No special permissions required
+- **Dark mode:** ✅ Supported
+- **Device:** iPhone only
+- **Orientation:** Portrait only
+
+---
+
+## 8. Build Steps
+
+- **B-001:** Create new SwiftUI project.
+- **B-002:** Install Lottie via Swift Package Manager.
+- **B-003:** Add `"Sample Animation.lottie"` into project bundle.
+- **B-004:** Create folder structure (Views, Components).
+- **B-005:** Create reusable `LottieView.swift`.
+- **B-006:** Implement local animation support.
+- **B-007:** Implement remote animation support.
+- **B-008:** Add loading and error state handling.
+- **B-009:** Apply dynamic width layout.
+- **B-010:** Test on multiple device sizes.
+- **B-011:** Clean code and remove debug logs.
+
+---
+
+## 9. Optional Enhancements
+
+- Add animation speed control
+- Add play / pause button
+- Add completion callback support
+- Implement remote animation caching
+- Use enum-based source type:
+
+```swift
+enum LottieSource {
+    case local(String)
+    case remote(URL)
+}
